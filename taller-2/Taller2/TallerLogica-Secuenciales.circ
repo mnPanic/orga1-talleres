@@ -29,11 +29,7 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="valign" val="base"/>
     </tool>
   </lib>
-  <lib desc="file#/Users/mpanichelli/UBA/orga-I/orga1-talleres/taller-1/taller_combinatorios/TallerLogica-Combinatorios.circ" name="7">
-    <tool name="sumador_4">
-      <a name="facing" val="north"/>
-    </tool>
-  </lib>
+  <lib desc="file#../ALU-para-prestar.circ" name="7"/>
   <main name="3estados"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
@@ -284,22 +280,22 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <circ-port height="8" pin="320,310" width="8" x="66" y="76"/>
       <circ-anchor facing="east" height="6" width="6" x="77" y="37"/>
     </appear>
-    <wire from="(320,230)" to="(320,310)"/>
-    <wire from="(200,240)" to="(200,250)"/>
     <wire from="(270,220)" to="(290,220)"/>
     <wire from="(260,260)" to="(270,260)"/>
-    <wire from="(240,250)" to="(240,260)"/>
     <wire from="(200,240)" to="(230,240)"/>
     <wire from="(330,220)" to="(390,220)"/>
-    <wire from="(290,160)" to="(390,160)"/>
     <wire from="(270,260)" to="(270,270)"/>
-    <wire from="(290,160)" to="(290,220)"/>
     <wire from="(250,250)" to="(250,310)"/>
-    <wire from="(290,220)" to="(310,220)"/>
-    <wire from="(230,260)" to="(240,260)"/>
-    <wire from="(170,250)" to="(200,250)"/>
-    <wire from="(230,260)" to="(230,270)"/>
     <wire from="(170,220)" to="(230,220)"/>
+    <wire from="(320,230)" to="(320,310)"/>
+    <wire from="(200,240)" to="(200,250)"/>
+    <wire from="(240,250)" to="(240,260)"/>
+    <wire from="(290,160)" to="(390,160)"/>
+    <wire from="(290,160)" to="(290,220)"/>
+    <wire from="(290,220)" to="(310,220)"/>
+    <wire from="(170,250)" to="(200,250)"/>
+    <wire from="(230,260)" to="(240,260)"/>
+    <wire from="(230,260)" to="(230,270)"/>
     <wire from="(260,250)" to="(260,260)"/>
     <comp lib="4" loc="(270,220)" name="D Flip-Flop"/>
     <comp lib="0" loc="(170,250)" name="Pin">
@@ -816,9 +812,9 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <wire from="(440,200)" to="(540,200)"/>
     <wire from="(220,260)" to="(230,260)"/>
     <wire from="(550,140)" to="(550,210)"/>
+    <wire from="(80,200)" to="(240,200)"/>
     <wire from="(220,140)" to="(260,140)"/>
     <wire from="(560,170)" to="(740,170)"/>
-    <wire from="(80,200)" to="(240,200)"/>
     <wire from="(100,160)" to="(230,160)"/>
     <wire from="(560,170)" to="(560,220)"/>
     <wire from="(210,180)" to="(220,180)"/>
@@ -929,7 +925,6 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <comp lib="1" loc="(520,380)" name="NOT Gate">
       <a name="size" val="20"/>
     </comp>
-    <comp lib="7" loc="(440,190)" name="ALU"/>
     <comp lib="0" loc="(220,40)" name="Pin">
       <a name="facing" val="south"/>
       <a name="output" val="true"/>
@@ -943,6 +938,7 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="label" val="V"/>
       <a name="labelloc" val="east"/>
     </comp>
+    <comp lib="7" loc="(440,190)" name="ALU"/>
     <comp lib="0" loc="(730,290)" name="Pin">
       <a name="facing" val="south"/>
       <a name="output" val="true"/>
