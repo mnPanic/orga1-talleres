@@ -1,0 +1,133 @@
+1)
+    a)  La memoria es de 8 bits de ancho de palabra x 256 direcciones
+    b)  Se pueden tener 0 instrucciones distintas sin operandos pues ya están
+        todas usadas.
+    c)  A + B + C + D = 
+        A = (2^5 - 1) * 2^6
+        B = (2^8 - 1) * 2^3
+        C = (2^3 - 1) * 2^8
+        D = 0
+    d)  8 bits (pues tiene que direccionar 2^8 direcciones de memoria)
+    e)  El IR está compuesto por dos registros IR-H (high) e IR-L (low) de 8 bits cada uno
+        (esto es porque cada instrucción está compuesta por dos palabras).
+        Ambos se encuentran conectados al bus (sólo pueden leer de él) y al decoder
+        (sólo pueden escribir a él).
+
+2)
+    a)  PC_inc incrementa el PC en 1.
+    b)  Indica si se deben escribir los flags (es decir, si los flags de la ALU deben
+        copiarse en la Unidad de Control).
+    c)  Los saltos condicionales son absolutos. Se copia en el PC el contenido de IR-L
+        (en caso de que el flag correspondiente de la Unidad de Control esté prendido)
+    d)  DE_enOutImm habilita la entrada al bus de un valor inmediato. Para seleccionar
+        el índice del registro se utiliza el componente Decode junto con el 'select'
+
+3)
+    a)
+        JMP seguir      ; Se salta a `seguir`
+        seguir:         
+        SET R0, 0xFF    ; R0 := 0xFF
+        SET R1, 0x11    ; R1 := 0x11
+        siguiente:
+        ADD R0, R1      ; R0 := R0 + R1
+        JC siguiente    ; Si hubo carry, se salta a `siguiente` y se vuelve a sumar...
+        halt:
+        JMP halt        ; Se queda "esperando" de por vida
+    
+    b)  
+        INS            ;| ocupa | dirección |
+        JMP seguir     ;|   2   |   0x00    |
+        seguir:        ;|   -   |   0x02    |
+        SET R0, 0xFF   ;|   2   |   0x02    |
+        SET R1, 0x11   ;|   2   |   0x04    |
+        siguiente:     ;|   -   |   0x04    |
+        ADD R0, R1     ;|   2   |   0x06    |
+        JC siguiente   ;|   2   |   0x08    |
+        halt:          ;|   -   |   0x0A    |
+        JMP halt       ;|   2   |   0x0A    |
+    
+    c)
+        Son necesarios 31 ciclos de clock para llegar a HALT
+
+    d)  Son necesarias 5 microinstrucciones para hacer el ADD (4 + reset_microOp).
+        Son necesarias 2 microinstrucciones para hacer el JMP (1 + reset_microOp).
+    
+    e)  32 Hz = 32 * 1/s ==> Cada instrucción tarda (ciclos / 32) segundos
+        JMP --> 4 ciclos --> 1/8  seg
+        SET --> 6 ciclos --> 3/16 seg
+        ADD --> 6 ciclos --> 3/16 seg
+        JC  --> 9 ciclos --> 9/32 seg
+
+4)
+    - En microOrga1
+        a) Los flags de la ALU nunca llegarán a la Unidad de Control (nunca se persistirán)
+        b) Los flags de la Unidad de Control serán siempre 0
+        c) Los flags de la Unidad de Control serán siempre 1
+    
+    - Registros
+        a) Nunca se podrá habilitar la salida del banco de registros al bus
+        b) Siempre estará deshabilitada la salida del banco de registros al bus
+        c) Siempre estará habilitada la salida del banco de registros al bus (y algo va a explotar tarde o temprano)
+
+    - PC
+        a) Nunca se podrá cargar un valor nuevo al PC (pero sí se podrá incrementar). 
+           Esto implica que no se pueden hacer saltos
+        b) idem
+        c) Siempre se estará modificando el valor del PC con la data que esté en el bus.
+
+    - ALU
+        a) La ALU no podrá realizar ninguna operación
+        b) La ALU siempre realizará la misma operación (la 0000). En este caso, ALU_Out := 0x00.
+        c) La ALU siempre realizará la misma operación (la 1111). En este caso, ALU_Out := 0xFF.
+
+    - Memory
+        a) No se podrá direccionar la memoria
+        b) Siempre se direccionará la posición 0x00
+        c) Siempre se direccionará la posición 0xFF
+
+    - Decode
+        a) No se podrá direccionar ninguna memoria ni levantar ningún valor inmediato. El Decoder no puede salir al bus directamente.
+           Esto implica que no funcionará ninguna operación fuera de las que usan registros únicamente.
+        b) Todos los valores inmediatos o posiciones de memoria que se vayan a direccionar serán 0x00.
+           Las instrucciones que no usen únicamente registros tendrán que utilizar siempre el operando 0x00 o el valor de la posición
+           de memoria 0x00.
+        c) Idem b) pero con 0xFF
+
+    - Control Unit
+        a) No se podrá variar el Micro-Program Counter.
+        b) Siempre se realizará la micro-instrucción ubicada en la primera posición de la ROM
+        c) Siempre se realizará la micro-instrucción ubicada en la última posición de la ROM
+
+5)
+    a)  Escribir un programa que calcule la suma de los primeros n números naturales. 
+        El valor resultante debe guardarse en R1, y se espera que el valor de n sea leido de R0
+        
+        main:
+        SET R1, 0x00
+        loop:   
+        JZ fin
+        ADD R1, R0
+        DEC R0
+        JMP loop
+        fin:    
+        JMP fin
+
+6)
+    a)  SIG:
+        0x09
+        ALU_OP=1101     ALU_enOut   ALU_enA             ; ALU_A := 0x01
+        RB_enOut        ALU_enB     RB_selectIndexOut=0 ; ALU_B := Rx
+        ALU_OP=0001     ALU_opW                         ; ALU_ADD, salen flags
+        RB_enIn         ALU_enOut   RB_selectIndexIn=0  ; Rx := ALU_Out
+        reset_microOp
+
+    b)  NEG:
+        0x0A
+        ALU_OP=1111     ALU_enOut   ALU_enA             ; ALU_A := 0xFF
+        RB_enOut        ALU_enB     RB_selectIndexOut=0 ; ALU_B := Rx
+        ALU_OP=0110                                     ; ALU_XOR, NO salen flags
+        ALU_enB         ALU_enOut                       ; ALU_B := ALU_Out
+        ALU_OP=1101     ALU_enOut   ALU_enA             ; ALU_A := 0x01
+        ALU_OP=0001                                     ; ALU_ADD, NO salen flags
+        RB_enIn         ALU_enOut   RB_selectIndexIn=0  ; Rx := ALU_Out
+        reset_microOp
