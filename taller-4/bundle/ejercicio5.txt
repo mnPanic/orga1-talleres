@@ -1,0 +1,6 @@
+main |00| SET R0 , 0x05
+     |02| SET R1 , 0x00
+loop |04| JZ fin
+     |06| ADD R1 , R0
+     |08| DEC R0
+     |0a| JMP loop
