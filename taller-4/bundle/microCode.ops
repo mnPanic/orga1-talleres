@@ -59,21 +59,20 @@
     reset_microOp
 
 01001: ; SIG
-    RB_enOut  ALU_enB  RB_selectIndexOut=0
-    ALU_OP=cte0x01 ALU_opW
-    ALU_enOut  ALU_enA
-    ALU_OP=ADD  ALU_opW
-    RB_enIn  ALU_enOut  RB_selectIndexIn=0
+    ALU_OP=cte0x01      ALU_enOut   ALU_enA             ; ALU_A := 0x01
+    RB_enOut            ALU_enB     RB_selectIndexOut=0 ; ALU_B := Rx
+    ALU_OP=ADD          ALU_opW                         ; ALU_ADD, salen flags
+    RB_enIn             ALU_enOut   RB_selectIndexIn=0  ; Rx := ALU_Out
     reset_microOp
 
 01010: ; NEG
-    ALU_OP=cte0xFF  ALU_enOut  ALU_enA
-    RB_enOut  ALU_enB  RB_selectIndexOut=0
-    ALU_OP=XOR
-    ALU_enB  ALU_enOut
-    ALU_OP=cte0x01 ALU_enOut  ALU_enA
-    ALU_OP=ADD
-    RB_enIn  ALU_enOut  RB_selectIndexIn=0
+    ALU_OP=cte0xFF     ALU_enOut   ALU_enA             ; ALU_A := 0xFF
+    RB_enOut        ALU_enB     RB_selectIndexOut=0 ; ALU_B := Rx
+    ALU_OP=XOR                                     ; ALU_XOR, NO salen flags
+    ALU_enB         ALU_enOut                       ; ALU_B := ALU_Out
+    ALU_OP=cte0x01     ALU_enOut   ALU_enA             ; ALU_A := 0x01
+    ALU_OP=ADD                                     ; ALU_ADD, NO salen flags
+    RB_enIn         ALU_enOut   RB_selectIndexIn=0  ; Rx := ALU_Out
     reset_microOp
   
 10000: ; STR [M] <- Rx
