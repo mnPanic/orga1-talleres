@@ -21,3 +21,4 @@ MOV R3, R1      ; Setteamos la velocidad de curva
 endInterrupt:
 STR [0xF0], R3
 IRET
+

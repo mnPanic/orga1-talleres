@@ -12,3 +12,4 @@
              |16| JMP endInterrupt
     hayCurva |18| MOV R3 , R1
 endInterrupt |1a| STR [ 0xF0 ] , R3
+             |1c| IRET
