@@ -25,3 +25,30 @@
     a.  Si el cable vale siempre 0, nunca se le prestará atención a la interrupción. En caso de que el cable
         valga siempre 1, siempre se saltará de a 7 microinstrucciones a la vez, resultando en un comportamiento
         completamente erróneo y errático.
+
+4.  a.     SET R1, 0x03     ; R1 := 0x03
+           SET R2, 0x00     ; R2 := 0x00
+           SET R3, rai      ; R3 := rai
+           STR [0x00], R3   ; [0x00] := rai
+           STI              ; Can interrupt
+        loop:
+           CMP R1, R2
+           JZ fin           ; if R1 == R2 then end
+           JMP loop         ; Vuelvo a loopear
+        fin: 
+            CLI             ; Clear interrupt
+        halt:
+            JMP halt
+        rai:
+            DEC R1          ; Decrement R1
+            IRET
+        
+        El programa va a seguir comparando R1 con R2 hasta que sean iguales. Esto ocurrirá cuando el programa 
+        haya sido interrumpido 3 veces (la subrutina de interrupción decrementa R1). 
+        Es decir, "cuenta" 3 interrupciones y termina.
+    b.  Tienen que ser 3 veces, exacto. Puesto que si se ejecuta más de 3 veces el programa no terminará nunca.
+    c.  Si se ejecuta 3 o menos veces, no hay drama, se loopeará menos veces.
+        Si se ejecuta 4 o más veces, estamos en problemas porque el programa no va a terminar nunca.
+    d.  Hay problema, porque DEC modifica flags y en ningún momento estamos guardando el PSW. Esto hace que se
+        pueda hacer un salto erróneo o no terminar nunca. Pero, esto básicamente quiere decir que tenemos los 
+        mismos comportamientos enunciados en el inciso c.
