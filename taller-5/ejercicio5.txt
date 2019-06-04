@@ -1,0 +1,14 @@
+             |00| SET R1 , 0x01
+             |02| SET R2 , 0x02
+             |04| SET R3 , 0x02
+             |06| STR [ 0xF0 ] , R3
+             |08| SET R0 , rai
+             |0a| STR [ 0x00 ] , R0
+             |0c| STI
+        wait |0e| JMP wait
+         rai |10| CMP R3 , R2
+             |12| JZ hayCurva
+             |14| MOV R3 , R2
+             |16| JMP endInterrupt
+    hayCurva |18| MOV R3 , R1
+endInterrupt |1a| STR [ 0xF0 ] , R3
