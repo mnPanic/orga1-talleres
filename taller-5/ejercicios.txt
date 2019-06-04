@@ -1,10 +1,13 @@
 1.
-    a.  Fetch   --> Control Unit, Memory, PC
+    a.  Fetch   --> Control Unit, Memory, PC, Decoder (set de IR Low y High), Interrupt Controller
         Decode  --> Decoder (con su IR Low y High)
-        Execute --> Registers (if required), PC (if required), ALU, Memory (if required), Control Unit
-    b.  Dejaría la ejecución de la subrutina de interrupción para el final del Execute 
+        Execute --> Registers (if required), PC (if required), ALU, Memory (if required), Control Unit 
+                    [Interrupt Controller también por STI, CLI, etc]
+    b.  Dejaría la ejecución de la subrutina de interrupción para el final del Execute o comienzo de Fetch 
         (si bien la interrupción) puede ocurrir en cualquier momento, resulta importante terminar la
-        el ciclo de instrucción actual antes de "darle bola"
+        el ciclo de instrucción actual antes de prestarle atención. En particular, quizás conviene al comienzo
+        del Fetch, puesto que siempre se ejecutará y a simple vista nos parecería que resultaría más fácil
+        de implementar.
     c.  Las microinstrucciones se almacenan en una ROM, dentro de la Control Unit.
     d.  El operation code que se obtiene de la instrucción real es el que define a qué posición de la
         ROM se irá a buscar la "subrutina" de microinstrucciones
@@ -17,3 +20,8 @@
         de realizar este checkeo, la siguiente instrucción será la de resettear el MicroPC (lo que resultaría
         en la vuelta al Fetch y la finalización de la ejecución de la instrucción actual). En caso de ser + 2,
         se harán las operaciones necesarias para modificar el PC y luego se volverá al Fetch.
+
+2.
+    a.  Si el cable vale siempre 0, nunca se le prestará atención a la interrupción. En caso de que el cable
+        valga siempre 1, siempre se saltará de a 7 microinstrucciones a la vez, resultando en un comportamiento
+        completamente erróneo y errático.
