@@ -1,0 +1,19 @@
+1.
+    a.  Fetch   --> Control Unit, Memory, PC
+        Decode  --> Decoder (con su IR Low y High)
+        Execute --> Registers (if required), PC (if required), ALU, Memory (if required), Control Unit
+    b.  Dejaría la ejecución de la subrutina de interrupción para el final del Execute 
+        (si bien la interrupción) puede ocurrir en cualquier momento, resulta importante terminar la
+        el ciclo de instrucción actual antes de "darle bola"
+    c.  Las microinstrucciones se almacenan en una ROM, dentro de la Control Unit.
+    d.  El operation code que se obtiene de la instrucción real es el que define a qué posición de la
+        ROM se irá a buscar la "subrutina" de microinstrucciones
+    e.  Un IF en un microprograma consta de una sucesión de microinstrucciones. En particular, un IF
+        se debería armar con algún salto condicional, por ejemplo el JZ. En este caso, el microprograma
+        se basaría en la siguiente idea: Se verificaría si el tipo de salto es un JZ y al mismo tiempo el
+        flag Z está prendido. Para ello, se hará una AND entre los dos valores y, en caso de resultar esto
+        en un "1", se seleccionará una de dos entradas a través de un Multiplexor. Estas dos entradas constan
+        de el MicroPC actual + 1 o MicroPC actual + 2. Si se quiere saltar, se usará el + 2, puesto que luego
+        de realizar este checkeo, la siguiente instrucción será la de resettear el MicroPC (lo que resultaría
+        en la vuelta al Fetch y la finalización de la ejecución de la instrucción actual). En caso de ser + 2,
+        se harán las operaciones necesarias para modificar el PC y luego se volverá al Fetch.
