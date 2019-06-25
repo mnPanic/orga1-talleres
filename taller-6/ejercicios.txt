@@ -1,0 +1,5 @@
+Memoria de 128 KB, Caché de 128 B con líneas de 32 B (ie: tiene 4 líneas)
+
+La memoria se divide en (128 * 2^10) / 128 = 128 * 2^9 bloques de 128 B c/u
+
+Entonces, el tag que identifica el grupo tiene 
