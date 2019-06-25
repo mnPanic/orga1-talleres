@@ -1,5 +1,22 @@
-Memoria de 128 KB, Caché de 128 B con líneas de 32 B (ie: tiene 4 líneas)
+Memoria de 128 KB (tenemos 2^7 * 2^10 = 2^17 direcciones posibles), Caché de 128 B con líneas de 32 B (ie: tiene 4 líneas)
 
-La memoria se divide en (128 * 2^10) / 128 = 128 * 2^9 bloques de 128 B c/u
+La memoria se divide en (128 * 2^10) / 128 = 2^10 bloques
 
-Entonces, el tag que identifica el grupo tiene 
+Entonces, hay 2^10 bloques y por ende el tag debe tener 10 bits.
+Además, necesitamos 2 bits para línea (pues tenemos 4). El resto queda para el índice.
+
+Entonces, nos queda el siguiente formato [ 12 bits ] [ 2 bits ] [ 2 bits ]
+                                            Tag       Línea      Índice
+
+Para el ejercicio 3.1.2
+4 líneas de 32 B c/u
+
+2^17 / (2^7 / 4) = 2^17 / 2^5 = 2^12
+
+Ejercicio 3.1.2:
+    Funciona mejor una completamente asociativa en el caso en que se quiera 
+    acceder siempre a la misma línea pero en distintos bloques (tags), pues
+    la completamente asociativa se aprovechará por completo y en la de
+    correspondencia directa se va a estar pisando siempre la misma línea.
+
+    El ejemplo es el ejercicio.

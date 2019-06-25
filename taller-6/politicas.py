@@ -39,9 +39,24 @@ def RANDOM(ways, addr_tag, addr_set):
 
 # Implementame por favor!
 def LRU(ways, addr_tag, addr_set):
-    while True:
-        print('Implementame che!!!! (soy LRU)')
-        time.sleep(2)
+    # Recorro todas las vías, si hay alguna libre, la devuelvo.
+    way_i = 0
+    for way in ways:
+        if not way[addr_set]['valid']:
+            return way_i
+        way_i += 1
+    
+    menor_step = ways[0][addr_set]['stepChange']
+    way_menor_step = 0
+    i = 0
+    for way in ways:
+        if way[addr_set]['stepChange'] < menor_step:
+            # Encontre el minimo, actualizo
+            menor_step = way[addr_set]['stepChange']
+            way_menor_step = i
+        i += 1
+    return way_menor_step
+
 
 
 # Implementame por favor! (si queres...)
