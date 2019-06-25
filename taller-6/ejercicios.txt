@@ -20,3 +20,9 @@ Ejercicio 3.1.2:
     correspondencia directa se va a estar pisando siempre la misma línea.
 
     El ejemplo es el ejercicio.
+
+    b. Si datos y memoria están separados, depende del caso.
+        - Si el programa hace mucho uso de memoria, conviene el uso para
+          datos (probablemente)
+        - Si el programa loopea forever y ejecutás las mismas líneas
+          siempre, probablemente conviene en el código.
