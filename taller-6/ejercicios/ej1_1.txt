@@ -1,0 +1,37 @@
+from cache import *
+
+# Inicializo memoria de 2^16 posiciones
+memoria = [0x0000 for i in range(2**16)]
+
+# Creo la cache
+cache = CacheCorrespondenciaDirecta(
+    memory=memoria,
+    cacheSize=64, 
+    nLines=4
+)
+
+# Pruebo tags y lineas
+cache.getFields(0x0009)
+cache.getFields(0x001D)
+cache.getFields(0x000A)
+cache.getFields(0x0101)
+cache.getFields(0x0113)
+cache.getFields(0x000A)
+cache.getFields(0x001E)
+cache.getFields(0x0102)
+cache.getFields(0x0114)
+
+# Hago la secuencia de fetch
+cache.fetch(0x0009)
+cache.fetch(0x001D)
+cache.fetch(0x000A)
+cache.fetch(0x0101)
+cache.fetch(0x0113)
+cache.fetch(0x000A)
+cache.fetch(0x001E)
+cache.fetch(0x0102)
+cache.fetch(0x0114)
+
+
+#Â Veo el log
+cache.mostrarLog()

@@ -5,13 +5,13 @@ import pylab
 # Correspondencia directa, vario distintas lineas
 # y guardo el hit rate para cada configuracion
 # usando la secuencia de fetchs definida en benchmark.list
-lines = [1, 2, 4]  # Poner el numero de lineas a testear
+lines = [(2**i) for i in range(0, 7)]  # Poner el numero de lineas a testear
 res = []
 for l in lines:
     ca = CacheCorrespondenciaDirecta(
                                memory=list(range(0, 2**16)),
                                cacheSize=128, nLines=l)
-    ca.fetchFrom('benchmark.list')
+    ca.fetchFrom('benchmark_matrix_iguales.list')
     res.append(ca.hitRate())
     print(("Lineas:", l, "HitRate:", ca.hitRate()))
 

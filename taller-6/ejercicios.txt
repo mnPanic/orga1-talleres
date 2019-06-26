@@ -26,3 +26,44 @@ Ejercicio 3.1.2:
           datos (probablemente)
         - Si el programa loopea forever y ejecutás las mismas líneas
           siempre, probablemente conviene en el código.
+
+
+Ej 3.2
+	2.a:
+		benchmark: benchmark_matrix_iguales.list
+  		fetching fifo
+  		hit rate: 0.9925579773321709	
+  		fetching random
+  		hit rate: 0.9911822144725371
+  		fetching lru
+  		hit rate: 0.9955326939843069
+
+  		benchmark: benchmark_matrix_mix.list
+  		fetching fifo
+  		hit rate: 0.823537925021796
+  		fetching random
+  		hit rate: 0.8315571054925893
+  		fetching lru
+  		hit rate: 0.925227550130776
+
+	2.b:
+		La diferencia de performance se basa en que cuando accede siempre a las
+		posiciones iguales, tiene 1 solo miss por cada iteración.
+		
+		En cambio, en el que es mixto, tiene dos miss por cada iteración.
+	
+	2.c:
+		iguales:
+			LRU es 0,3% mejor que FIFO
+		mix:
+			LRU es 12,5% mejor que FIFO
+Ej 3.3
+	No necesariamente. A más lineas, menos indices por linea.
+
+	Mas lineas
+		Es mejor si se accede a muchas posiciones dispersas, mas de una vez.
+		Suficientemente dispersas como para que no entren en una sola linea,
+		ya que requeriría que la cache sea demasiado grande
+	Menos lineas
+		Es mejor si se accede secuencialmente a muchas posiciones seguidas
+		De esa forma, se missea menos
